@@ -33,18 +33,27 @@ char	*previously_saved(char **save_line)
 char	*ft_get_next_line(int fd)
 {
 	char		buffer[BUFFER_SIZE + 1];
-	char		*temp_line;
-	static char	*save_line;
-	size_t		line_length;
+	char		*temp;
+	static char	*save;
+	size_t		rd_bytes;
 
-	line_length = read(fd, buffer, BUFFER_SIZE);
-	if (BUFFER_SIZE < 1 || fd < 0 || line_length == -1)
+	rd_bytes = read(fd, buffer, BUFFER_SIZE);
+	if (BUFFER_SIZE < 1 || fd < 0 || rd_bytes == -1)
 		return (NULL);
-	buffer[line_length] = '\0';
-	if (line_length > 1)
+	buffer[rd_bytes] = '\0';
+	if (rd_bytes < 1)
 	{
-		if (*save_line)
-			return (previously_saved(&(*save_line)));
+		if (save)
+			return (previously_saved(&(save)));
 		return (NULL);
 	}
+	if (!save)
+		save = ft_strdup(buffer);
+	else
+	{
+		temp = save;
+		save = ft_strjoin(temp, buffer);
+		free(temp);
+	}
+	return (check_new_line(&(save), fd));
 }
