@@ -1,33 +1,42 @@
 #include "get_next_line.h"
 
-char	*find_new_line(char **save_line)
+char	*ft_find_new_line(char **save)
 {
 	char	*temp;
-	char	*start_save_line;
+	char	*start_save;
 	int		nb_lines;
 
-	nb_lines = ft_strchr(*save_line, '\n');
-	temp = ft_substr(*save_line, 0, nb_lines + 1);
-	while (nb_lines-- > 0)
-		*(save_line)++;
-	if (*save_line[0] != '\0')
-		return (ft_strdup(*save_line));
+	start_save = *save;
+	nb_lines = ft_strchr(*save, '\n');
+	temp = ft_substr(*save, 0, nb_lines + 1);
+	while (nb_lines-- >= 0)
+		*save++;
+	if (*save[0] != '\0')
+		*save = ft_strdup(*save);
 	else
-		*save_line = NULL;
-	free(start_save_line);
-	start_save_line = NULL;
+		*save = NULL;
+	free(start_save);
+	start_save = NULL;
 	return (temp);
 }
 
-char	*previously_saved(char **save_line)
+char	*ft_previously_saved(char **save)
 {
 	char	*temp;
-	if (ft_strchr(*save_line, '\n') >= 0)
-		return (find_new_line(&(*save_line)));
-	temp = *save_line;
-	*save_line = NULL;
-	free(*save_line);
+
+	if (ft_strchr(*save, '\n') >= 0)
+		return (ft_find_new_line(&(*save)));
+	temp = *save;
+	*save = NULL;
+	free(*save);
 	return (temp);
+}
+
+char	*ft_check_new_line(char **save, int fd)
+{
+	if (ft_strchr(*save, '\n') >= 0)
+		return (ft_find_new_line(&(*save)));
+	return (ft_get_next_line(fd));
 }
 
 char	*ft_get_next_line(int fd)
@@ -35,7 +44,7 @@ char	*ft_get_next_line(int fd)
 	char		buffer[BUFFER_SIZE + 1];
 	char		*temp;
 	static char	*save;
-	size_t		rd_bytes;
+	int			rd_bytes;
 
 	rd_bytes = read(fd, buffer, BUFFER_SIZE);
 	if (BUFFER_SIZE < 1 || fd < 0 || rd_bytes == -1)
@@ -44,7 +53,7 @@ char	*ft_get_next_line(int fd)
 	if (rd_bytes < 1)
 	{
 		if (save)
-			return (previously_saved(&(save)));
+			return (ft_previously_saved(&(save)));
 		return (NULL);
 	}
 	if (!save)
@@ -55,5 +64,5 @@ char	*ft_get_next_line(int fd)
 		save = ft_strjoin(temp, buffer);
 		free(temp);
 	}
-	return (check_new_line(&(save), fd));
+	return (ft_check_new_line(&(save), fd));
 }
