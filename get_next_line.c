@@ -49,6 +49,7 @@ char	*get_next_line(int fd)
 			printf("ERROR! No Bytes were read by Read.\n");
 			break ;
 		}
+		// saved = ft_strnjoin(saved, buf, rd_bytes);
 		saved = ft_strndup(buf, ft_strchr(buf, '\n', 0));
 		pos = ft_strchr(saved, '\n', 1);
 		if (saved)
@@ -59,6 +60,8 @@ char	*get_next_line(int fd)
 		ft_free(&buf);
 	}
 	ft_free(&buf);
+/*	AT THE MOMENT 
+	IM RETURNING 1 LINE	*/
 	printf("Next Line:\n");
 	return (saved);
 }
