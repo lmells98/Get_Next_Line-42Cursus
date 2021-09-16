@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 	int			pos;
 	int			rd_bytes;
 	char		*buf;
-	static char *saved;
+	static char	*saved;
 
 	if (BUFFER_SIZE == 0 || fd < 0 || fd > 10240)
 	{	
@@ -33,13 +33,12 @@ char	*get_next_line(int fd)
 	}
 	buf = NULL;
 	pos = ft_strchr(saved, '\n', 0);
-	printf("pos = %i\n", pos);
 /*	Loops Through the Entire File unless you flag *
  *	ft_strchr to find the new line char */
 	while (pos == -1 && pos != -5)
 	{
 		buf = ft_calloc(BUFFER_SIZE + 1, 1);
-		if (!buf)
+		if (buf == NULL)
 		{	
 			printf("ERROR! Failed Memory Allocation.\n");
 			return (NULL);
@@ -48,11 +47,18 @@ char	*get_next_line(int fd)
 		if (rd_bytes == -1 || rd_bytes == 0)
 		{
 			printf("ERROR! No Bytes were read by Read.\n");
-			return (NULL);
+			break ;
 		}
-		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
-		utils_debug(fd, buf, rd_bytes);
-		break ;
+		saved = ft_strndup(buf, ft_strchr(buf, '\n', 0));
+		pos = ft_strchr(saved, '\n', 1);
+		if (saved)
+		{
+			debug_info(fd, saved, BUFFER_SIZE, rd_bytes);
+			utils_debug(fd, saved, rd_bytes);
+		}
+		ft_free(&buf);
 	}
-	return (ft_strndup(buf, ft_strchr(buf, '\n', 0)));
+	ft_free(&buf);
+	printf("Next Line:\n");
+	return (saved);
 }
