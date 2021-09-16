@@ -6,19 +6,16 @@ char	*ft_strndup(const char *s, unsigned int size)
 	char	*dup;
 	size_t	i;
 
-	dup = (char *)malloc(s[size + 1] * sizeof(char));
+	dup = (char *)malloc((size + 1) * sizeof(char));
 	if (!dup)
 		return (NULL);
 	i = 0;
-	if (i <= size)
+	while (s[i] && i <= size)
 	{
-		while (s[i] != '\0')
-		{
-			dup[i] = s[i];
-			i++;
-		}
-		dup[i] = '\0';
+		dup[i] = s[i];
+		i++;
 	}
+	dup[i] = '\0';
 	return (dup);
 }
 
@@ -32,16 +29,18 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-int	ft_strchr(const char *str, const char c)
+int	ft_strchr(char *str, int c, int flag)
 {
-	unsigned int i;
+	int	i;
 
+	if (flag == 1 && !str)
+		return (-5);
 	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 	{
 		if (str[i] == c)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
