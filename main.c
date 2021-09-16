@@ -10,7 +10,6 @@ int	main(void)
 		printf("ERROR! Failed to open file.");
 		return (0);
 	}
-	if (fd)
-		printf("\"%s\"\n", get_next_line(fd));
+	printf("\"%s\"\n", get_next_line(fd));
 	return (0);
 }
