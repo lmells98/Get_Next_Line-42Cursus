@@ -11,8 +11,10 @@
 # include <unistd.h>
 
 int		ft_strchr(char *str, int c, int flag);
-char	*ft_strndup(const char *c, unsigned int size);
 char	*get_next_line(int fd);
+char	*ft_strndup(const char *c, unsigned int size);
+void	ft_free(char **pointer);
+void    *ft_calloc(size_t n_memb, size_t size);
 size_t	ft_strlen(const char *s);
 
 void	debug_info(int fd, char *buf, int buf_size, int bytes);
