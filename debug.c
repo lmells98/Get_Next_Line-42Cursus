@@ -6,7 +6,7 @@ void	utils_debug(int fd, char *buf, int bytes)
 	ssize_t len;
 	int     pos;
 	  
-	if ((!(fd < 0 || fd > 10240)) && buf != NULL && bytes >= 0)
+	if ((fd > 0 || fd < 10240) && buf != NULL && bytes >= 0)
 	{
 		printf("Testing ft_strlen\n");
 		if ((len = ft_strlen(buf)) > 0)
@@ -36,7 +36,7 @@ void	utils_debug(int fd, char *buf, int bytes)
 		printf("----------------------------\n");
 	}
 	else
-		printf("Error...\n");
+		printf("ERROR! Failed Initial Check For Debug.\n");
 }
  
 void    debug_info(int fd, char *buf, int buf_size, int bytes)
