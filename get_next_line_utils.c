@@ -1,5 +1,11 @@
 #include "get_next_line.h"
 
+void	ft_free(char **pointer)
+{
+	free(*pointer);
+	*pointer = NULL;
+}
+
 //TODO	ADD FT_STRNDUP FUNCTION - DUPLICATE N_BYTES OF A STRING PASSED THROUGH
 char	*ft_strndup(const char *s, unsigned int size)
 {
