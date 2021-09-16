@@ -41,12 +41,12 @@ void	utils_debug(int fd, char *buf, int bytes)
  
 void    debug_info(int fd, char *buf, int buf_size, int bytes)
 {
-	if (BUFFER_SIZE <= 0 || bytes <= 0 || fd < 0 || fd > 10240)
+	if (!(BUFFER_SIZE > 0 || bytes > 0 || fd >= 0 || fd <= 10240))
 	{
 		printf("ERROR 1.\n");
 		return ;
 	}
-	if (!buf)
+	else if (!buf)
 	{
 		printf("ERROR 2. NOTHING IN BUFFER.\n");
 		return ;
