@@ -10,9 +10,12 @@
 # include <stdio.h>
 # include <unistd.h>
 
-int		ft_strchr(const char *s, const char c);
+int		ft_strchr(char *str, int c, int flag);
 char	*ft_strndup(const char *c, unsigned int size);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
+
+void	debug_info(int fd, char *buf, int buf_size, int bytes);
+void	utils_debug(int fd, char *buf, int bytes);
 
 #endif
