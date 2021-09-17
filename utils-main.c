@@ -5,6 +5,7 @@ int	main(void)
 	int 	fd;
 	int		bytes;
 	char	*buf;
+	static char *saved;
 
 	fd = open("./text.txt", O_RDONLY);
 	if (BUFFER_SIZE < 0)
@@ -24,5 +25,5 @@ int	main(void)
 		printf("ERROR READING FILE FROM FD.\nfd=%i\tbuf=%s\n", fd, buf);
 	}
 	debug_info(fd, buf, BUFFER_SIZE, bytes);
-	utils_debug(fd, buf, bytes);
+	utils_debug(fd, buf, bytes, saved);
 }
