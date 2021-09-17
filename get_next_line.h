@@ -21,4 +21,9 @@ size_t	ft_strlen(const char *s);
 void	debug_info(int fd, char *buf, int buf_size, int bytes);
 void	utils_debug(int fd, char *buf, int bytes, char *saved);
 
+int		debug_strchr(char *str, char c, int flag);
+void	debug_len(char *str);
+void	debug_strndup(char *src, unsigned int size);
+void	debug_strnjoin(char *s1, char *s2, int pos);
+
 #endif
