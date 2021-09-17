@@ -18,8 +18,43 @@ void	*ft_calloc(size_t n_memb, size_t size)
 	}
 	return (ch_p);
 }
-//	TODO	add handle for updating the new line
-//			& if saved is empty!!
+/*	TODO	add handles for updating the new line
+**			& if saved is empty!!
+*/
+char	*ft_update_newline(char **saved, int pos)
+{
+	char	*tmp;
+	int		len;
+
+	len = (int)ft_strlen(*saved) - pos;
+	tmp = ft_strndup(*saved + pos, len);
+	ft_free(saved);
+	*saved = tmp;
+	return (*saved);
+}
+
+char	*ft_output_newline(char **saved, int pos, int rd_bytes)
+{
+	char	*output;
+
+	if (((rd_bytes == 0 || rd_bytes == -1) && !*saved) || pos == -5)
+	{
+		if (*saved)
+			return (*saved);
+		return (NULL);
+	}
+	output = NULL;
+	if (pos == -1)
+		pos = (int)ft_strlen(*saved);
+	else
+		pos++;
+	output = ft_strndup(*saved, pos);
+	if ((int)ft_strlen(*saved) == pos)
+		ft_free(saved);
+	else
+		*saved = ft_update_newline(saved, pos);
+	return (output);
+}
 
 char	*get_next_line(int fd)
 {
@@ -51,21 +86,14 @@ char	*get_next_line(int fd)
 			printf("ERROR! No Bytes were read.\n");
 			break ;
 		}
-		pos = ft_strchr(buf, '\n', 1);
-		saved = ft_strndup(buf, pos);
-		//saved = ft_strnjoin(saved, buf, rd_bytes);
-		//pos = ft_strchr(saved, '\n', 1);
-		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
-		utils_debug(fd, buf, rd_bytes, saved);
-		//if (saved)
-		//	ft_free(&buf);
+		saved = ft_strnjoin(saved, buf, rd_bytes);
+		pos = ft_strchr(saved, '\n', 1);
+//		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
+		ft_free(&buf);
 	}
-	//ft_free(&buf);
-
-//	TODO Figure out what the fuck is happening to save!
-
+	ft_free(&buf);
 /*	AT THE MOMENT 
 	IM RETURNING 1 LINE	*/
-	printf("GET_NEXT_LINE\n");
-	return (ft_strndup(buf, pos));
+	printf("--------------\nRETURN:\n");
+	return (ft_output_newline(&saved, pos, rd_bytes));
 }
