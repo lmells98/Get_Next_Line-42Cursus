@@ -18,6 +18,8 @@ void	*ft_calloc(size_t n_memb, size_t size)
 	}
 	return (ch_p);
 }
+//	TODO	add handle for updating the new line
+//			& if saved is empty!!
 
 char	*get_next_line(int fd)
 {
@@ -46,22 +48,27 @@ char	*get_next_line(int fd)
 		rd_bytes = read(fd, buf, BUFFER_SIZE);
 		if (rd_bytes == -1 || rd_bytes == 0)
 		{
-			printf("ERROR! No Bytes were read by Read.\n");
+			printf("ERROR! No Bytes were read.\n");
 			break ;
 		}
-		// saved = ft_strnjoin(saved, buf, rd_bytes);
-		saved = ft_strndup(buf, ft_strchr(buf, '\n', 0));
-		pos = ft_strchr(saved, '\n', 1);
+		pos = ft_strchr(buf, '\n', 1);
+		if (!saved)
+			saved = ft_strndup(buf, pos);
+		saved = ft_strnjoin(saved, buf, rd_bytes);
+		//pos = ft_strchr(saved, '\n', 1);
+		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
+		utils_debug(fd, buf, rd_bytes, saved);
 		if (saved)
-		{
-			debug_info(fd, saved, BUFFER_SIZE, rd_bytes);
-			utils_debug(fd, saved, rd_bytes);
-		}
-		ft_free(&buf);
+			ft_free(&buf);
 	}
 	ft_free(&buf);
+
+//	TODO Figure out what the fuck is happening to save!
+
 /*	AT THE MOMENT 
 	IM RETURNING 1 LINE	*/
+	printf("%s\n", saved);
+	char	*fin = ft_strndup(saved, ft_strlen(saved));
 	printf("Next Line:\n");
-	return (saved);
+	return (fin);
 }
