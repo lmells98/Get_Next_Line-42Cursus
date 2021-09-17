@@ -1,56 +1,125 @@
 #include "get_next_line.h"
 
-void	utils_debug(int fd, char *buf, int bytes, char *saved)
+int		ft_ternary(int condition, long val1, long val2)
 {
-	char    *dup;
-	char	*join;
-	ssize_t len;
-	int     pos;
-	  
-	if ((fd > 0 && fd < 10240) && buf != NULL && bytes >= 0)
+	if (condition)
+		return (val1);
+	else
+		return (val2);
+}
+
+void	debug_len(char *str)
+{
+	if (ft_ternary(ft_strlen(""), 1, 0) == 0)
 	{
-		printf("Testing ft_strlen\n");
-		if ((len = ft_strlen(buf)) > 0)
-			printf("len = %i\nSUCCESS!!!\n", (int)len);
-		else
-			printf("ERROR! SOMETHING WENT WRONG...\n");
+		printf("Testing ft_strlen\n");	
 		printf("----------------------------\n");
-		printf("Testing ft_strchr\n");
-		if ((pos = ft_strchr(buf, '\n', 0)))
-			printf("new line position = %i\nSUCCESS!!!\n", pos);
-		else
-			printf("ERROR! SOMETHING WENT WRONG...\n");
-		printf("----------------------------\n");
-		printf("Testing ft_strndup\n");
-		if ((dup = ft_strndup(buf, pos)) != NULL)
-		{
-			printf("Duplicate = \"\"\n\"%s\"\n", dup);
-			printf("Duplicate len = %i\n", (int)ft_strlen(dup));
-			printf("Should be pos + 1 for Null Byte.\n");
-			if (((int)ft_strlen(dup)) == pos + 1)
-				printf("SUCCESS!!!\n");
-			else
-				printf("ERROR! SOMETHING WENT WRONG...\n");
-		}
-		else
-			printf("ERROR! SOMETHING WENT WRONG...\n");
-		printf("----------------------------\n");
-		printf("Testing ft_strnjoin\n");
-		if ((join = ft_strnjoin(saved, buf, pos)) != NULL)
-			printf("Output String:\n\"%s\"\n", join);
+		if (ft_strlen(str) > 0)
+			printf("len = %i\nSUCCESS!!!\n", (int)ft_strlen(str));
 		else
 			printf("ERROR! SOMETHING WENT WRONG...\n");
 		printf("----------------------------\n");
 	}
 	else
-		printf("ERROR! Failed Initial Check For Debug.\n");
+	{
+		printf("ERROR! Check Failed...\n");
+		printf("----------------------------\n");
+	}
+}
+
+int		debug_strchr(char *str, char c, int flag)
+{
+	int	pos;
+	char	init[5] = "init\n";
+	if (ft_ternary((ft_strchr(init, c, 0) > 0), 1, 0) == 1)
+	{
+		printf("Testing ft_strchr\n");
+		printf("----------------------------\n");
+		if ((pos = ft_strchr(str, c, flag)))
+			printf("new line position = %i\nSUCCESS!!!\n", pos);
+		else
+			printf("ERROR! SOMETHING WENT WRONG...\n");
+		printf("----------------------------\n");
+	}
+	else
+	{
+		printf("ERROR! Check Failed...\n");
+		printf("----------------------------\n");
+	}
+	return (pos);
+}
+
+void	debug_strndup(char *src, unsigned int size)
+{
+	char	*dup;
+
+	if ((ft_strndup(src, 0)) != NULL)
+	{
+		printf("Testing ft_strndup\n");
+		printf("----------------------------\n");
+		if ((dup = ft_strndup(src, size)) != NULL)
+		{
+			printf("Duplicate = \"%s\"\n", dup);
+			printf("Length	  = %i\n", (int)ft_strlen(dup));
+			printf("Should be pos + 1 for Null Byte.\n");
+			if (((int)ft_strlen(dup)) == (int)size + 1)
+				printf("SUCCESS!!!\n");
+			else
+				printf("ERROR! SOMETHING WENT WRONG...\n");
+			printf("----------------------------\n");
+		}
+		else
+		{
+			printf("ERROR! Check Failed...\n");
+			printf("----------------------------\n");
+		}
+	}
+}
+
+void	debug_strnjoin(char *s1, char *s2, int pos)
+{
+	char	*join;
+	
+	if (!s1)
+		s1 = ft_strndup(s2, pos);
+	join = NULL;
+	printf("Testing ft_strnjoin\n");
+	printf("----------------------------\n");
+	if ((join = ft_strnjoin(s1, s2, pos)) != NULL)
+	{	
+		printf("Output String:\n\"%s\"\n", join);
+		printf("----------------------------\n");
+	}
+	else
+	{
+		printf("ERROR! Failed Check...\n");
+		printf("----------------------------\n");
+	}
+}
+
+void	utils_debug(int fd, char *buf, int rd_bytes, char *saved)
+{
+	printf("UTILIITY DEBUG\n");
+	printf("----------------------------\n");
+
+	int			pos;
+	  
+	if ((fd > 0 && fd < 10240) && buf != NULL && rd_bytes >= 0)
+	{
+		debug_len(buf);
+		pos = debug_strchr(buf, '\n', 1);
+		debug_strndup(buf, pos);
+		debug_strnjoin(saved, buf, pos);
+	}
+	else
+		printf("ERROR! Failed Check...\n");
 }
  
-void    debug_info(int fd, char *buf, int buf_size, int bytes)
+void    debug_info(int fd, char *buf, int buf_size, int rd_bytes)
 {
-	if (!(BUFFER_SIZE > 0 || bytes > 0 || fd >= 0 || fd <= 10240))
+	if (!(BUFFER_SIZE > 0 || rd_bytes > 0 || fd >= 0 || fd <= 10240))
 	{
-		printf("ERROR 1.\n");
+		printf("ERROR 1. Falied to Read File\n");
 		return ;
 	}
 	else if (!buf)
@@ -59,8 +128,9 @@ void    debug_info(int fd, char *buf, int buf_size, int bytes)
 		return ;
 	}
 	printf("----------------------------\n");
-	printf("FD\t\t= %i\nBUFFER_SIZE\t= %i\nBytes Read\t= %i\n", fd, buf_size, bytes);
+	printf("SUCCESSFULLY READ FILE INFO\n");
+	printf("----------------------------\n");
+	printf("FD\t\t= %i\nBUFFER_SIZE\t= %i\nBytes Read\t= %i\n", fd, buf_size, rd_bytes);
 	printf("Buffer\t\t= \"\"\n\"%s\"\n", buf);
-	printf("\nSUCCESSFULLY READ FILE INFO\n");
 	printf("----------------------------\n");
 }
