@@ -1,12 +1,13 @@
 #include "get_next_line.h"
 
-void	utils_debug(int fd, char *buf, int bytes)
+void	utils_debug(int fd, char *buf, int bytes, char *saved)
 {
 	char    *dup;
+	char	*join;
 	ssize_t len;
 	int     pos;
 	  
-	if ((fd > 0 || fd < 10240) && buf != NULL && bytes >= 0)
+	if ((fd > 0 && fd < 10240) && buf != NULL && bytes >= 0)
 	{
 		printf("Testing ft_strlen\n");
 		if ((len = ft_strlen(buf)) > 0)
@@ -31,6 +32,12 @@ void	utils_debug(int fd, char *buf, int bytes)
 			else
 				printf("ERROR! SOMETHING WENT WRONG...\n");
 		}
+		else
+			printf("ERROR! SOMETHING WENT WRONG...\n");
+		printf("----------------------------\n");
+		printf("Testing ft_strnjoin\n");
+		if ((join = ft_strnjoin(saved, buf, pos)) != NULL)
+			printf("Output String:\n\"%s\"\n", join);
 		else
 			printf("ERROR! SOMETHING WENT WRONG...\n");
 		printf("----------------------------\n");
