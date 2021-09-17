@@ -52,23 +52,20 @@ char	*get_next_line(int fd)
 			break ;
 		}
 		pos = ft_strchr(buf, '\n', 1);
-		if (!saved)
-			saved = ft_strndup(buf, pos);
-		saved = ft_strnjoin(saved, buf, rd_bytes);
+		saved = ft_strndup(buf, pos);
+		//saved = ft_strnjoin(saved, buf, rd_bytes);
 		//pos = ft_strchr(saved, '\n', 1);
 		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
 		utils_debug(fd, buf, rd_bytes, saved);
-		if (saved)
-			ft_free(&buf);
+		//if (saved)
+		//	ft_free(&buf);
 	}
-	ft_free(&buf);
+	//ft_free(&buf);
 
 //	TODO Figure out what the fuck is happening to save!
 
 /*	AT THE MOMENT 
 	IM RETURNING 1 LINE	*/
-	printf("%s\n", saved);
-	char	*fin = ft_strndup(saved, ft_strlen(saved));
-	printf("Next Line:\n");
-	return (fin);
+	printf("GET_NEXT_LINE\n");
+	return (ft_strndup(buf, pos));
 }
