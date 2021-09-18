@@ -17,7 +17,7 @@ char	*ft_strndup(const char *s, unsigned int size)
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (s[i] && i <= size)
+	while (s[i] && i < size)
 	{
 		dup[i] = s[i];
 		i++;
@@ -26,12 +26,14 @@ char	*ft_strndup(const char *s, unsigned int size)
 	return (dup);
 }
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
-	size_t	len;
+	int		len;
 
 	len = 0;
-	while (s[len] != '\0')
+	if (!s)
+		return (0);
+	while (s && s[len])
 		len++;
 	return (len);
 }
@@ -43,7 +45,7 @@ int	ft_strchr(char *str, int c, int flag)
 	if (flag == 1 && !str)
 		return (-5);
 	i = 0;
-	while (str && str[i] != '\0')
+	while (str && str[i])
 	{
 		if (str[i] == c)
 			return (i);
@@ -64,7 +66,7 @@ char	*ft_strnjoin(char *s1, char *s2, int n)
 	i = 0;
 	if (s2[j] == '\0')
 		return (NULL);
-	join = (char *)malloc((ft_strlen(s1) + n + 1) * sizeof(char));
+	join = (char *)malloc(ft_strlen(s1) + n + 1);
 	if (!join)
 		return (NULL);
 	if (s1 != NULL)
@@ -75,12 +77,8 @@ char	*ft_strnjoin(char *s1, char *s2, int n)
 			i++;
 		}
 	}
-	while (s2[i] != '\0' && j < n)
-	{
-		join[i] = s2[j];
-		i++;
-		j++;
-	}
+	while (s2 && s2[j] != '\0' && j < n)
+		join[i++] = s2[j++];
 	join[i] = '\0';
 	if (s1)
 		ft_free(&s1);
