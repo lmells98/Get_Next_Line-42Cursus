@@ -59,10 +59,9 @@ void	debug_strndup(char *src, unsigned int size)
 		printf("----------------------------\n");
 		if ((dup = ft_strndup(src, size)) != NULL)
 		{
-			printf("Duplicate = \"%s\"\n", dup);
+			printf("Duplicate =\n%s\n", dup);
 			printf("Length	  = %i\n", (int)ft_strlen(dup));
-			printf("Should be pos + 1 for Null Byte.\n");
-			if (((int)ft_strlen(dup)) == (int)size + 1)
+			if (((int)ft_strlen(dup)) == (int)size)
 				printf("SUCCESS!!!\n");
 			else
 				printf("ERROR! SOMETHING WENT WRONG...\n");
@@ -76,18 +75,16 @@ void	debug_strndup(char *src, unsigned int size)
 	}
 }
 
-void	debug_strnjoin(char *s1, char *s2, int pos)
+void	debug_strnjoin(char *s1, char *s2, int n)
 {
 	char	*join;
 	
-	if (!s1)
-		s1 = ft_strndup(s2, pos);
 	join = NULL;
 	printf("Testing ft_strnjoin\n");
 	printf("----------------------------\n");
-	if ((join = ft_strnjoin(s1, s2, pos)) != NULL)
+	if ((join = ft_strnjoin(s1, s2, n)) != NULL)
 	{	
-		printf("Output String:\n\"%s\"\n", join);
+		printf("Output String:\n%s\n", join);
 		printf("----------------------------\n");
 	}
 	else
@@ -103,19 +100,25 @@ void	utils_debug(int fd, char *buf, int rd_bytes, char *saved)
 	printf("----------------------------\n");
 
 	int			pos;
+	static char	*join_test;
 	  
 	if ((fd > 0 && fd < 10240) && buf != NULL && rd_bytes >= 0)
 	{
 		debug_len(buf);
 		pos = debug_strchr(buf, '\n', 1);
 		debug_strndup(buf, pos);
-		debug_strnjoin(saved, buf, pos);
+		join_test = NULL;
+		if (*join_test)
+		{
+			join_test = ft_strndup(saved, ft_strlen(saved));
+			debug_strnjoin(join_test, buf, rd_bytes);
+		}
 	}
 	else
 		printf("ERROR! Failed Check...\n");
 }
  
-void    debug_info(int fd, char *buf, int buf_size, int rd_bytes)
+void    debug_info(int fd, char *buf, int buf_size, int rd_bytes, char *saved)
 {
 	if (!(BUFFER_SIZE > 0 || rd_bytes > 0 || fd >= 0 || fd <= 10240))
 	{
@@ -131,6 +134,7 @@ void    debug_info(int fd, char *buf, int buf_size, int rd_bytes)
 	printf("SUCCESSFULLY READ FILE INFO\n");
 	printf("----------------------------\n");
 	printf("FD\t\t= %i\nBUFFER_SIZE\t= %i\nBytes Read\t= %i\n", fd, buf_size, rd_bytes);
-	printf("Buffer\t\t= \"\"\n\"%s\"\n", buf);
+	printf("Buffer\t\t= \n%s\n", buf);
+	printf("Saved\t\t=\n%s\n", saved);
 	printf("----------------------------\n");
 }
