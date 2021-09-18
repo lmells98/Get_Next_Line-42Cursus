@@ -26,7 +26,7 @@ char	*ft_update_newline(char **saved, int pos)
 	char	*tmp;
 	int		len;
 
-	len = (int)ft_strlen(*saved) - pos;
+	len = ft_strlen(*saved) - pos;
 	tmp = ft_strndup(*saved + pos, len);
 	ft_free(saved);
 	*saved = tmp;
@@ -45,17 +45,19 @@ char	*ft_output_newline(char **saved, int pos, int rd_bytes)
 	}
 	output = NULL;
 	if (pos == -1)
-		pos = (int)ft_strlen(*saved);
+		pos = ft_strlen(*saved);
 	else
 		pos++;
 	output = ft_strndup(*saved, pos);
-	if ((int)ft_strlen(*saved) == pos)
+	if (ft_strlen(*saved) == pos)
 		ft_free(saved);
 	else
 		*saved = ft_update_newline(saved, pos);
 	return (output);
 }
 
+/*	Loops Through the Entire File until EOF *
+**	or ft_strchr errors */
 char	*get_next_line(int fd)
 {
 	int			pos;
@@ -63,15 +65,13 @@ char	*get_next_line(int fd)
 	char		*buf;
 	static char	*saved;
 
-	if (BUFFER_SIZE == 0 || fd < 0 || fd > 10240)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 10240)
 	{	
 		printf("ERROR! Failed Initial Check.\n");
 		return (NULL);
 	}
 	buf = NULL;
 	pos = ft_strchr(saved, '\n', 0);
-/*	Loops Through the Entire File unless you flag *
- *	ft_strchr to find the new line char */
 	while (pos == -1 && pos != -5)
 	{
 		buf = ft_calloc(BUFFER_SIZE + 1, 1);
@@ -82,18 +82,11 @@ char	*get_next_line(int fd)
 		}
 		rd_bytes = read(fd, buf, BUFFER_SIZE);
 		if (rd_bytes == -1 || rd_bytes == 0)
-		{
-			printf("ERROR! No Bytes were read.\n");
 			break ;
-		}
 		saved = ft_strnjoin(saved, buf, rd_bytes);
 		pos = ft_strchr(saved, '\n', 1);
-//		debug_info(fd, buf, BUFFER_SIZE, rd_bytes);
 		ft_free(&buf);
 	}
 	ft_free(&buf);
-/*	AT THE MOMENT 
-	IM RETURNING 1 LINE	*/
-	printf("--------------\nRETURN:\n");
 	return (ft_output_newline(&saved, pos, rd_bytes));
 }
