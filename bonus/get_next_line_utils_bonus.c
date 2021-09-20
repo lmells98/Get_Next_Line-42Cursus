@@ -1,5 +1,11 @@
 #include "get_next_line_bonus.h"
 
+void	ft_free(char **pointer)
+{
+	free(&pointer);
+	*pointer = NULL;
+}
+
 int	ft_strchr(char *str, int c, int flag)
 {
 	int	i;
