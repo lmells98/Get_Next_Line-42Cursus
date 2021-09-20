@@ -6,7 +6,7 @@
 /*   By: lmells <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 10:59:42 by lmells            #+#    #+#             */
-/*   Updated: 2021/09/20 11:30:45 by lmells           ###   ########.fr       */
+/*   Updated: 2021/09/20 13:14:45 by lmells           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,14 @@ char	*get_next_line(int fd)
 	static char	*saved;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 10240)
-	{	
-		printf("ERROR! Failed Initial Check.\n");
 		return (NULL);
-	}
 	buf = NULL;
 	pos = ft_strchr(saved, '\n', 0);
 	while (pos == -1 && pos != -5)
 	{
 		buf = ft_calloc(BUFFER_SIZE + 1, 1);
 		if (buf == NULL)
-		{	
-			printf("ERROR! Failed Memory Allocation.\n");
 			return (NULL);
-		}
 		rd_bytes = read(fd, buf, BUFFER_SIZE);
 		if (rd_bytes == -1 || rd_bytes == 0)
 			break ;
