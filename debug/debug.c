@@ -6,11 +6,11 @@
 /*   By: lmells <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 10:59:42 by lmells            #+#    #+#             */
-/*   Updated: 2021/09/20 10:59:42 by lmells           ###   ########.fr       */
+/*   Updated: 2021/09/20 13:12:02 by lmells           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "debug_get_next_line.h"
 
 int		ft_ternary(int condition, long val1, long val2)
 {
