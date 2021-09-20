@@ -13,9 +13,10 @@
 # include <stdio.h>
 
 char	*get_next_line(int fd);
-char	*ft_append_line(char **saved, int pos);
-char	*ft_output_line(char **saved, int pos, int red_bytes);
+//char	*ft_append_line(char **saved, int pos);
+//char	*ft_output_line(char **saved, int pos, int red_bytes);
 
 int		ft_strchr(char *str, int c, int flag);
+void	ft_free(char **pointer);
 
 #endif
