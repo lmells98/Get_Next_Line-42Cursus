@@ -2,8 +2,8 @@
 
 void	ft_free(char **pointer)
 {
-	free(&pointer);
-	*pointer = NULL;
+	free(pointer);
+	pointer = NULL;
 }
 
 int	ft_strchr(char *str, int c, int flag)
