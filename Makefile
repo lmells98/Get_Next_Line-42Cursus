@@ -1,15 +1,9 @@
 CFLAGS	= -Wall -Werror -Wextra
 CC		= gcc
 
-<<<<<<< HEAD
 TEST	= m
 DEBUG	= d
 BONUS	= b
-=======
-TEST	= test
-DEBUG	= debug.out
-BONUS	= bonus.out
->>>>>>> 690a764c885b1bd382243f3163cf1c4ad2a72c48
 
 SRCS	= get_next_line.c get_next_line_utils.c
 MAIN	= main.c
