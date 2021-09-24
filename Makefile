@@ -31,7 +31,10 @@ clean:
 
 fclean: clean
 
-norm: 
-	norminette *_lin*.[ch]
+normm: 
+	norminette *_line*.[ch]
 
-re: norm all fclean clean
+normb: 
+	norminette ./bonus/*_bonus.[ch]
+
+re: normm normb all fclean clean
