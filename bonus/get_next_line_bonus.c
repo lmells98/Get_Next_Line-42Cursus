@@ -16,8 +16,18 @@ void	*ft_calloc(size_t n_memb, size_t size)
 		ch_p[i] = 0;
 		i++;
 	}
-	printf("Pointer=%s\n", ch_p);
+	printf("--------\nBuffer Address = %p\n", ch_p);
 	return (ch_p);
+}
+
+char	*ft_output_line(char **saved, int pos, int rd_bytes)
+{
+	char	*output;
+
+	output = ft_strndup(*saved, pos);
+	printf("--------\nbytes = %i\n--------\nnew line pos = %i\n", rd_bytes, pos);
+	printf("--------\nsaved = \n\"%s\"\n-------\n", output);
+	return (output);
 }
 
 char	*get_next_line(int fd)
@@ -40,11 +50,10 @@ char	*get_next_line(int fd)
 		if (rd_bytes == 0 || rd_bytes == -1)
 			return (NULL);
 		saved[fd] = ft_strnjoin(saved[fd], buf, rd_bytes);
+		printf("--------\nBuffer String = \n\"%s\"\n", buf);
 		pos = ft_strchr(saved[fd], '\n', 1);
+		ft_free(&buf);
 	}
-	printf("--------\nbuf=%s\n--------\n", buf);
-	printf("--------\nsaved=%s\n--------\n", saved[fd]);
-	printf("pos=%i\n-------\nbytes=%i\n---------\n", pos, rd_bytes);
-	ft_free(&buf);
-	return (buf);
+//	ft_free(&buf);
+	return (ft_output_line(&saved[fd], pos, rd_bytes));
 }
