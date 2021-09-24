@@ -7,8 +7,12 @@ int	main(void)
 	fd = open("./bonus/get_next_line_bonus.c", O_RDONLY);
 	if (fd > 0)
 	{
-		printf("MAKEFILE TEST...\n");
-		get_next_line(fd);
+		int	i;
+		printf("---------\nBONUS TEST...\n");
+		for (i = 1; i <= 2; i++)
+		{
+			printf("%i:\t%s", i, get_next_line(fd));
+		}
 	}
 	else
 		printf("Error! Something went wrong...\n");
