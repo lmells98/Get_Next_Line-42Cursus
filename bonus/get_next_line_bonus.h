@@ -16,7 +16,10 @@ char	*get_next_line(int fd);
 //char	*ft_append_line(char **saved, int pos);
 //char	*ft_output_line(char **saved, int pos, int red_bytes);
 
+int		ft_strlen(const char *str);
 int		ft_strchr(char *str, int c, int flag);
+char	*ft_strndup(const char *s1, unsigned int size);
+char	*ft_strnjoin(char *s1, char *s2, unsigned int size);
 void	ft_free(char **pointer);
 
 #endif
