@@ -16,17 +16,44 @@ void	*ft_calloc(size_t n_memb, size_t size)
 		ch_p[i] = 0;
 		i++;
 	}
-	printf("--------\nBuffer Address = %p\n", ch_p);
+//	printf("--------\nBuffer Address = %p\n", ch_p);
 	return (ch_p);
+}
+
+char	*ft_update_newline(char **saved, int pos)
+{
+	char	*new_line;
+	size_t	len;
+
+	len = (size_t)ft_strlen(*saved) - (size_t)pos;
+	new_line = ft_strndup(*saved + pos, len);
+	ft_free(saved);
+	*saved = new_line;
+	return (*saved);
 }
 
 char	*ft_output_line(char **saved, int pos, int rd_bytes)
 {
 	char	*output;
 
+	if (rd_bytes == 0 || rd_bytes == -1 || !*saved || pos == -5)
+	{
+		if (*saved)
+			return (*saved);
+		return (NULL);
+	}
+	output = NULL;
+	if (pos == -1)
+		pos = ft_strlen(*saved);
+	else
+		pos++;
 	output = ft_strndup(*saved, pos);
-	printf("--------\nbytes = %i\n--------\nnew line pos = %i\n", rd_bytes, pos);
-	printf("--------\nsaved = \n\"%s\"\n-------\n", output);
+	if (pos == ft_strlen(*saved))
+		ft_free(saved);
+	else
+		*saved = ft_update_newline(saved, pos);
+//	printf("--------\nbytes = %i\n--------\nnew line pos = %i\n", rd_bytes, pos);
+//	printf("--------\nsaved = \n\"%s\"\n-------\n", output);
 	return (output);
 }
 
@@ -50,10 +77,11 @@ char	*get_next_line(int fd)
 		if (rd_bytes == 0 || rd_bytes == -1)
 			return (NULL);
 		saved[fd] = ft_strnjoin(saved[fd], buf, rd_bytes);
-		printf("--------\nBuffer String = \n\"%s\"\n", buf);
+//		printf("--------\nBuffer String = \n\"%s\"\n", buf);
 		pos = ft_strchr(saved[fd], '\n', 1);
 		ft_free(&buf);
 	}
-//	ft_free(&buf);
+	ft_free(&buf);
+//	printf("-------\n");
 	return (ft_output_line(&saved[fd], pos, rd_bytes));
 }
