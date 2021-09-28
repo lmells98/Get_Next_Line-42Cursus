@@ -6,7 +6,7 @@
 /*   By: lmells <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 10:59:42 by lmells            #+#    #+#             */
-/*   Updated: 2021/09/24 13:44:13 by lmells           ###   ########.fr       */
+/*   Updated: 2021/09/28 11:36:24 by lmells           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void	*ft_calloc(size_t n_memb, size_t size)
 	}
 	return (ch_p);
 }
-/*	TODO	add handles for updating the new line
-**			& if saved is empty!!
-*/
+
 char	*ft_update_newline(char **saved, int pos)
 {
 	char	*tmp;
@@ -68,8 +66,6 @@ char	*ft_output_newline(char **saved, int pos, int rd_bytes)
 	return (output);
 }
 
-/*	Loops Through the Entire File until EOF *
-**	or ft_strchr errors */
 char	*get_next_line(int fd)
 {
 	int			pos;
