@@ -9,9 +9,10 @@ SRCS	= get_next_line.c get_next_line_utils.c
 MAIN	= main.c
 DBUG	= ./debug/debug_gnl.c ./debug/debug.c
 DHEAD	= ./debug/debug_get_next_line.h
+BHEAD	= get_next_line_bonus.h
 SUB		= get_next_line_utils.c
 
-BONUSSRCS	= ./bonus/*.c
+BONUSSRCS	= get_next_line_bonus.c get_next_line_utils_bonus.c
 
 $(TEST): $(SRCS)
 	${CC} $(CFLAGS) -I . $(SRCS) $(MAIN) -o test.out
@@ -20,7 +21,7 @@ $(DEBUG): $(SRCS)
 	${CC} $(CFLAGS) -I $(DHEAD) $(SUB) $(MAIN) $(DBUG) -o debug.out
 
 $(BONUS): $(BONUSSRCS)
-	${CC} $(CFLAGS) -I . $(BONUSSRCS) -o bonus.out
+	${CC} $(CFLAGS) -I $(BHEAD) $(BONUSSRCS) $(MAIN) -o bonus.out
 
 all: $(TEST) $(DEBUG) $(BONUS)
 
@@ -31,10 +32,7 @@ clean:
 
 fclean: clean
 
-normm: 
+norm: 
 	norminette *_line*.[ch]
 
-normb: 
-	norminette ./bonus/*_bonus.[ch]
-
-re: normm normb all fclean clean
+re: norm all fclean clean
