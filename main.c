@@ -9,7 +9,7 @@
 /*   Updated: 2021/09/28 11:34:30 by lmells           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include <stdio.h>
 #include "get_next_line.h"
 
 int	main(void)
@@ -18,7 +18,7 @@ int	main(void)
 	int		i;
 
 	fd = open("./text.txt", O_RDONLY);
-	if (fd > -1 && fd < 10241)
+	if (fd > 0 && fd < 10240)
 	{
 		for (i = 1; i <= 4; i++)
 			printf("%i:	%s", i, get_next_line(fd));

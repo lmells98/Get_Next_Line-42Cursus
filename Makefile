@@ -1,4 +1,5 @@
 CFLAGS	= -Wall -Werror -Wextra
+D_FLAG	= -D BUFFER_SIZE=42
 CC		= gcc
 
 TEST	= m
@@ -15,7 +16,7 @@ SUB		= get_next_line_utils.c
 BONUSSRCS	= get_next_line_bonus.c get_next_line_utils_bonus.c
 
 $(TEST): $(SRCS)
-	${CC} $(CFLAGS) -I . $(SRCS) $(MAIN) -o test.out
+	${CC} $(CFLAGS) -I . $(D_FLAG) $(SRCS) $(MAIN) -o test.out
 
 $(DEBUG): $(SRCS)
 	${CC} $(CFLAGS) -I $(DHEAD) $(SUB) $(MAIN) $(DBUG) -o debug.out
